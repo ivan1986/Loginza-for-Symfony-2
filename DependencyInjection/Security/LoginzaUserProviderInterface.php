@@ -6,6 +6,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 interface LoginzaUserProviderInterface extends UserProviderInterface {
 
-    public function loadUserByIdentityAndProvider($identity, $provider);
+    public function loadUserByIdentityAndProvider($identity, $provider, $loginza_info);
 
 }

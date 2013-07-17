@@ -52,10 +52,10 @@ class LoginzaAuthenticationProvider implements AuthenticationProviderInterface
             try {
                 $user = $this->userProvider->loadUserByIdentityAndProvider(
                     $token->loginza_info['identity'],
-                    $token->loginza_info['provider']
+                    $token->loginza_info['provider'],
+                    $token->loginza_info
                 );
 
-                //$lt->
                 $newToken = new LoginzaToken($token->getRoles(), $token->loginza_info);
                 $newToken->setUser($user);
                 $newToken->setAuthenticated(true);

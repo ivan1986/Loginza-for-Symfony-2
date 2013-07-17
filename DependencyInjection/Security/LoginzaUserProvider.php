@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 abstract class LoginzaUserProvider implements LoginzaUserProviderInterface {
 
-    abstract public function loadUserByIdentityAndProvider($identity, $provider);
+    abstract public function loadUserByIdentityAndProvider($identity, $provider, $loginza_info);
 
     public function loadUserByUsername($username)
     {
