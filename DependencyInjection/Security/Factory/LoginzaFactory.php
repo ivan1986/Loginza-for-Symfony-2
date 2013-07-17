@@ -19,7 +19,6 @@ class LoginzaFactory extends AbstractFactory {
             isset($config['widget_id']) ? $config['widget_id'] : null,
         ));
         return $result;
-        //$this->addOption('create_user_if_not_exists', false);
         //$this->addOption('secret_key', $config['secret_key']);
         //$this->addOption('widget_id', $config['widget_id']);
         //$container->setParameter('security.loginza.secret_key', $config['secret_key']);
@@ -51,9 +50,6 @@ class LoginzaFactory extends AbstractFactory {
                 ->scalarNode('login_route')->isRequired()->end()
             ->end()*/
             ->children()
-                ->scalarNode('user_provider')->isRequired()->end()
-            ->end()
-            ->children()
                 ->scalarNode('secret_key')->end()
             ->end()
             ->children()
@@ -75,11 +71,28 @@ class LoginzaFactory extends AbstractFactory {
         return 'loginza';
     }
 
-	protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId){
+	protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
+    {
+        $providerId = 'security.authentication.provider.fp_openid.'.$id;
+        $provider = $container
+            ->setDefinition($providerId, new DefinitionDecorator('security.authentication.provider.loginza'))
+            ->replaceArgument(0, $id);
+
+        // with user provider
+        if (isset($config['provider'])) {
+            $provider
+                ->addArgument(new Reference($userProviderId))
+                ->addArgument(new Reference('security.user_checker'))
+                //->addArgument($config['create_user_if_not_exists'])
+            ;
+        }
+
+        return $providerId;
+
         $providerId = 'security.authentication.provider.loginza.'.$id;
         $provider = $container
             ->setDefinition($providerId, new DefinitionDecorator('security.authentication.provider.loginza'))
-            ->replaceArgument(1, $config['user_provider']);
+            ->replaceArgument(0, $id);
         return $providerId;
 	}
 

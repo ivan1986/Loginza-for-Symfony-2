@@ -1,7 +1,7 @@
 services:
     security.authentication.provider.loginza:
       class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaAuthenticationProvider
-      arguments: [ @service_container, null ]
+      arguments: [ null ]
       abstract: true
 
     security.authentication.listener.loginza:

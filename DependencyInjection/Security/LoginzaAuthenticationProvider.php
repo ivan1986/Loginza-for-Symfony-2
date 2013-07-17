@@ -23,13 +23,12 @@ class LoginzaAuthenticationProvider implements AuthenticationProviderInterface
      * @param null|\Symfony\Component\Security\Core\User\UserCheckerInterface $userChecker
      * @param bool $createIfNotExists
      */
-    public function __construct(Container $container, $userProviderName = null)
+    public function __construct($id, UserProviderInterface $userProvider = null, UserCheckerInterface $userChecker = null)
     {
-        if (null === $userProviderName) {
+        if (null === $userProvider) {
             throw new \InvalidArgumentException('$userProvider cannot be null.');
         }
 
-        $userProvider = $container->get($userProviderName);
         if (!($userProvider instanceof LoginzaUserProviderInterface)) {
             throw new \InvalidArgumentException('The $userProvider must implement LoginzaUserProviderInterface.');
         }

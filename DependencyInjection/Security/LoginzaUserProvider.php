@@ -25,11 +25,12 @@ abstract class LoginzaUserProvider implements LoginzaUserProviderInterface {
 
     public function refreshUser(UserInterface $user)
     {
+        return $user;
     }
 
     public function supportsClass($class)
     {
-        return false;
+        return true;
     }
 
 }
