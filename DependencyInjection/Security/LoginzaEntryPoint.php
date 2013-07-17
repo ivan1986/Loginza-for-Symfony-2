@@ -2,12 +2,14 @@
 
 namespace Zim32\LoginzaBundle\DependencyInjection\Security;
 
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Http\HttpUtils;
 
 class LoginzaEntryPoint implements AuthenticationEntryPointInterface {
 
@@ -19,14 +21,13 @@ class LoginzaEntryPoint implements AuthenticationEntryPointInterface {
         $this->container = $container;
     }
 
+
     public function start(Request $request, AuthenticationException $authException = null){
         if($authException !== null){
             if(!is_a($authException, 'Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException')){
                 $this->container->get('session')->setFlash('error', $authException->getMessage());
             }
         }
-        $redirect_url = $this->container->get('router')->generate($this->config['login_route'], array(), false);
-        $response = new RedirectResponse($redirect_url);
-        return $response;
+        return new RedirectResponse($this->config['login_path']);
      }
 }

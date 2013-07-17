@@ -6,9 +6,12 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class LoginzaToken extends AbstractToken {
 
-    public function __construct(array $roles){
+    public $loginza_info;
+
+    public function __construct(array $roles, $loginza_info){
         if(!isset($roles['ROLE_LOGINZA_USER'])) $roles[] = 'ROLE_LOGINZA_USER';
         parent::__construct($roles);
+        $this->loginza_info = $loginza_info;
     }
 
     public function getCredentials(){

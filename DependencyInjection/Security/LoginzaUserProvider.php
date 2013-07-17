@@ -1,35 +1,35 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: ivan
+ * Date: 17.07.13
+ * Time: 15:22
+ */
 
 namespace Zim32\LoginzaBundle\DependencyInjection\Security;
 
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\User;
+
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\HttpFoundation\Session;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class LoginzaUserProvider implements UserProviderInterface {
+abstract class LoginzaUserProvider implements LoginzaUserProviderInterface {
 
-    protected $session;
+    abstract public function loadUserByIdentityAndProvider($identity, $provider);
 
-    public function __construct(Session $session){
-        $this->session = $session;
-    }
-
-    public function loadUserByUsername($username){
+    public function loadUserByUsername($username)
+    {
         throw new \Exception("Not supported");
     }
 
-    public function refreshUser(UserInterface $user){
-        if (!$user instanceof UserInterface) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
-        }
+    public function refreshUser(UserInterface $user)
+    {
+    }
 
-        return $user;
+    public function supportsClass($class)
+    {
+        return false;
     }
-    
-    public function supportsClass($class){
-         return $class === 'Symfony\Component\Security\Core\User\User';
-    }
-    
+
 }

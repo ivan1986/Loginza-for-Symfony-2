@@ -1,6 +1,7 @@
 <?php
 namespace Zim32\LoginzaBundle\DependencyInjection\Security\Factory;
 
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -8,28 +9,24 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LoginzaFactory implements SecurityFactoryInterface {
+class LoginzaFactory extends AbstractFactory {
 
 	public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint){
-        $providerId = 'security.authentication.provider.loginza.'.$id;
-        $container
-            ->setDefinition($providerId, new DefinitionDecorator('security.authentication.provider.dao'))
-            ->replaceArgument(0, new Reference($userProvider))
-            ->replaceArgument(2, $id)
-        ;
-
-        $entryPointId = $this->createEntryPoint($container, $id, $config, $defaultEntryPoint);
-
-        $listenerId = 'security.authentication.listener.loginza.'.$id;
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('loginza.security.authentication.listener'));
-
-        $container->setParameter('security.loginza.login_route', $config['login_route']);
+        $result = parent::create($container, $id, $config, $userProvider, $defaultEntryPoint);
+        $d = $container->getDefinition($this->getListenerId().'.'.$id);
+        $d->addMethodCall('setKeys', array(
+            isset($config['secret_key']) ? $config['secret_key'] : null,
+            isset($config['widget_id']) ? $config['widget_id'] : null,
+        ));
+        return $result;
+        //$this->addOption('create_user_if_not_exists', false);
+        //$this->addOption('secret_key', $config['secret_key']);
+        //$this->addOption('widget_id', $config['widget_id']);
+        //$container->setParameter('security.loginza.secret_key', $config['secret_key']);
+        //$container->setParameter('security.loginza.widget_id', $config['widget_id']);
+        /*$container->setParameter('security.loginza.login_route', $config['login_route']);
         $container->setParameter('security.loginza.token_route', $config['token_route']);
-        $container->setParameter('security.loginza.secret_key', $config['secret_key']);
-        $container->setParameter('security.loginza.widget_id', $config['widget_id']);
-        $container->setParameter('security.loginza.entity', isset($config['entity'])?$config['entity']:false);
-
-        return array($providerId, $listenerId, $entryPointId);
+        $container->setParameter('security.loginza.entity', isset($config['entity'])?$config['entity']:false);*/
 	}
 
     protected function createEntryPoint($container, $id, $config, $defaultEntryPoint)
@@ -37,33 +34,34 @@ class LoginzaFactory implements SecurityFactoryInterface {
         if (null !== $defaultEntryPoint) {
             return $defaultEntryPoint;
         }
-
-        $entryPointId = 'security.authentication.loginza_entry_point.'.$id;
+        $entryPointId = 'security.authentication.entry_point.loginza.'.$id;
         $container
-            ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.loginza_entry_point'))
+            ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.entry_point.loginza'))
             ->addArgument($config)
         ;
 
         return $entryPointId;
     }
 
-	public function addConfiguration(NodeDefinition $node) {
-		$node
-            ->children()
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
+            /*->children()
                 ->scalarNode('login_route')->isRequired()->end()
+            ->end()*/
+            ->children()
+                ->scalarNode('user_provider')->isRequired()->end()
             ->end()
             ->children()
-                ->scalarNode('token_route')->isRequired()->end()
+                ->scalarNode('secret_key')->end()
             ->end()
             ->children()
-                ->scalarNode('secret_key')->isRequired()->end()
+                ->scalarNode('widget_id')->end()
             ->end()
-            ->children()
-                ->scalarNode('widget_id')->isRequired()->end()
-            ->end()
-            ->children()
+            /*->children()
                 ->scalarNode('entity')->end()
-            ->end()
+            ->end()*/
            ;
 	}
 
@@ -78,7 +76,18 @@ class LoginzaFactory implements SecurityFactoryInterface {
     }
 
 	protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId){
-		return;
+        $providerId = 'security.authentication.provider.loginza.'.$id;
+        $provider = $container
+            ->setDefinition($providerId, new DefinitionDecorator('security.authentication.provider.loginza'))
+            ->replaceArgument(1, $config['user_provider']);
+        return $providerId;
 	}
 
+    /**
+     * @return string
+     */
+    protected function getListenerId()
+    {
+        return 'security.authentication.listener.loginza';
+    }
 }

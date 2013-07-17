@@ -1,14 +1,14 @@
-parameters: ~
-
 services:
-    loginza.security.authentication.listener:
-      class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaListener
-      arguments: [@security.context, @security.authentication.manager, @service_container]
+    security.authentication.provider.loginza:
+      class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaAuthenticationProvider
+      arguments: [ @service_container, null ]
+      abstract: true
 
-    security.authentication.loginza_entry_point:
+    security.authentication.listener.loginza:
+      class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaListener
+      parent: security.authentication.listener.abstract
+      abstract: true
+
+    security.authentication.entry_point.loginza:
       class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaEntryPoint
       arguments: [@service_container]
-
-    loginza.user.provider:
-      class:  Zim32\LoginzaBundle\DependencyInjection\Security\LoginzaUserProvider
-      arguments: [@session]
