@@ -1,6 +1,6 @@
 <?php
 
-namespace Zim32\LoginzaBundle\DependencyInjection;
+namespace Ivan1986\LoginzaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class Zim32LoginzaExtension extends Extension
+class Ivan1986LoginzaExtension extends Extension
 {
     /**
      * {@inheritDoc}

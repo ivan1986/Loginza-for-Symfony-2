@@ -1,12 +1,12 @@
 <?php
 
-namespace Zim32\LoginzaBundle;
+namespace Ivan1986\LoginzaBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Zim32\LoginzaBundle\DependencyInjection\Security\Factory\LoginzaFactory;
+use Ivan1986\LoginzaBundle\DependencyInjection\Security\Factory\LoginzaFactory;
 
-class Zim32LoginzaBundle extends Bundle
+class Ivan1986LoginzaBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

@@ -1,9 +1,9 @@
 {
-    "name":        "zim32/loginza-bundle",
+    "name":        "ivan1986/loginza-bundle",
     "type":        "symfony-bundle",
     "description": "This bundle integrate Loginza",
-    "keywords":    ["auth"],
-    "homepage":    "https://github.com/zim32/Loginza-for-Symfony-2",
+    "keywords":    ["security", "Authentication", "Loginza"],
+    "homepage":    "https://github.com/Ivan1986/Loginza-for-Symfony-2",
     "license":     "MIT",
 
     "require": {
@@ -13,9 +13,9 @@
 
     "autoload": {
         "psr-0": {
-            "Zim32\\LoginzaBundle": "."
+            "Ivan1986\\LoginzaBundle": "."
         }
     },
 
-    "target-dir": "Zim32/LoginzaBundle"
+    "target-dir": "Ivan1986/LoginzaBundle"
 }

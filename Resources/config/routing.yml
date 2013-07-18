@@ -1,3 +1,0 @@
-Zim32LoginzaBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: Zim32LoginzaBundle:Default:index }

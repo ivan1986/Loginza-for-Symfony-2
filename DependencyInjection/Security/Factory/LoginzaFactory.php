@@ -1,5 +1,5 @@
 <?php
-namespace Zim32\LoginzaBundle\DependencyInjection\Security\Factory;
+namespace Ivan1986\LoginzaBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;

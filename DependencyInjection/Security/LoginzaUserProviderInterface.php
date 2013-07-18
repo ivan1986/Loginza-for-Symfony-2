@@ -1,6 +1,6 @@
 <?php
 
-namespace Zim32\LoginzaBundle\DependencyInjection\Security;
+namespace Ivan1986\LoginzaBundle\DependencyInjection\Security;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
