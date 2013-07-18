@@ -3,7 +3,7 @@
     "type":        "symfony-bundle",
     "description": "This bundle integrate Loginza",
     "keywords":    ["security", "Authentication", "Loginza"],
-    "homepage":    "https://github.com/Ivan1986/Loginza-for-Symfony-2",
+    "homepage":    "https://github.com/Ivan1986/LoginzaBundle",
     "license":     "MIT",
 
     "require": {
