@@ -14,28 +14,28 @@ https://github.com/zim32/Loginza-for-Symfony-2
 
 2) Configure /app/config/security.yml
 	  
-providers:
+    providers:
       loginza:
         id: <id for you user provider>
 		
-firewalls:
-    <name>:
+    firewalls:
+      <name>:
         pattern:  ^/
         loginza:
-            provider: loginza
-            check_path: <>
-            <all form options>
+          provider: loginza
+          check_path: <>
+          <all form options>
 
 -----------------
 
 3) Create form for loginza whis token_url={{check_path|url_encode}}
 
-{% extends "::base.html.twig" %}
-
-{% block body %}
-	<script src="//loginza.ru/js/widget.js" type="text/javascript"></script>
-    <a href="https://loginza.ru/api/widget?token_url={{check_path|url_encode}}" class="loginza">Please login</a>
-{% endblock %}
+    {% extends "::base.html.twig" %}
+    
+    {% block body %}
+    	<script src="//loginza.ru/js/widget.js" type="text/javascript"></script>
+        <a href="https://loginza.ru/api/widget?token_url={{check_path|url_encode}}" class="loginza">Please login</a>
+    {% endblock %}
 
 -----------------
 
@@ -44,5 +44,4 @@ and implements
 
     public function loadUserByIdentityAndProvider($identity, $provider, $loginza_info)
     
-
 User has ROLE_LOGINZA_USER role after authentication
