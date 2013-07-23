@@ -23,10 +23,7 @@ abstract class LoginzaUserProvider implements LoginzaUserProviderInterface {
         throw new \Exception("Not supported");
     }
 
-    public function refreshUser(UserInterface $user)
-    {
-        return $user;
-    }
+    abstract public function refreshUser(UserInterface $user);
 
     public function supportsClass($class)
     {
