@@ -6,7 +6,7 @@ https://github.com/zim32/Loginza-for-Symfony-2
 
 1) install - standart by composer
 
-    "ivan1986/loginza-bundle": "*",
+    "ivan1986/loginza-bundle": "dev-master",
 
     new Ivan1986\LoginzaBundle\Ivan1986LoginzaBundle(),
     
